@@ -6,6 +6,7 @@ def analyze_dataset(file_path):
     info={
         'num_samples': len(df),
         'num_features': len(df.columns)-1,
+        'missing_values': df.isnull().sum().sum()
     }
 
     target=df.columns[-1]
