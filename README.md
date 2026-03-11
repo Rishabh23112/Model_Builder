@@ -108,31 +108,7 @@ python main.py datasets/sample_dataset.csv
 
 ---
 
-# 📊 Example Output
 
-```
-Dataset Info
--------------------
-Samples: 5000
-Features: 10
-Task: classification
-
-Epoch 1, Loss: 1.21
-Epoch 2, Loss: 0.84
-Epoch 3, Loss: 0.63
-
-Test Accuracy: 0.82
-
-Model Comparison
-----------------------
-Neural Network: 0.82
-Logistic Regression: 0.78
-Random Forest: 0.86
-
-Best Model: Random Forest
-```
-
----
 
 # 🧪 Supported Tasks
 
