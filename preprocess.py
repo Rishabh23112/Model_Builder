@@ -8,11 +8,12 @@ from sklearn.preprocessing import LabelEncoder, StandardScaler
 from pandas.api.types import is_numeric_dtype
 
 
-def preprocess_data(df):
+def preprocess_data(df, task='classification'):
 
     df = df.copy()
 
-    for col in df.columns:
+
+    for col in df.columns[:-1]:
         if df[col].nunique() == len(df):
             df.drop(columns=[col], inplace=True)
 
@@ -60,14 +61,25 @@ def preprocess_data(df):
     x = x.astype("float32")
 
     x = torch.tensor(x)
-    y = torch.tensor(y, dtype=torch.long)
+    
+    if task == "classification":
+        y = torch.tensor(y, dtype=torch.long)
+    else:
+        y = torch.tensor(y, dtype=torch.float32).unsqueeze(1)
 
-    x_train, x_test, y_train, y_test = train_test_split(
-        x, y,
-        test_size=0.2,
-        random_state=42,
-        stratify=y
-    )
+    if task == "classification":
+        x_train, x_test, y_train, y_test = train_test_split(
+            x, y,
+            test_size=0.2,
+            random_state=42,
+            stratify=y
+        )
+    else:
+        x_train, x_test, y_train, y_test = train_test_split(
+            x, y,
+            test_size=0.2,
+            random_state=42
+        )
 
     # DataLoader
     train_dataset = TensorDataset(x_train, y_train)

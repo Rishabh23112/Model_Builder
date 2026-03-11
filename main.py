@@ -18,7 +18,9 @@ df, info = analyze_dataset(csv_file)
 
 print(info)
 
-train_loader, x_test, y_test, num_features = preprocess_data(df)
+info['dataset_name'] = csv_file
+
+train_loader, x_test, y_test, num_features = preprocess_data(df, info['task'])
 
 if info["task"] == "classification":
     output_size = info["num_classes"]
@@ -31,16 +33,17 @@ train_model(model, train_loader, info['task'], epochs=5)
 accuracy=evaluate_model(model, x_test, y_test, info['task'])
 
 x_train_np = train_loader.dataset.tensors[0].numpy()
-y_train_np = train_loader.dataset.tensors[1].numpy()
+y_train_np = train_loader.dataset.tensors[1].numpy().ravel()
 
 x_test_np = x_test.numpy()
-y_test_np = y_test.numpy()
+y_test_np = y_test.numpy().ravel()
 
 results, best_model = select_model(
     x_train_np,
     y_train_np,
     x_test_np,
-    y_test_np
+    y_test_np,
+    info['task']
 )
 
 print("\nSklearn Model Results")
